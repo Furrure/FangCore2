@@ -1,0 +1,1 @@
+py -3 -m pdoc --html --force --output-dir .\documentation .\FangCore2 && .\documentation\FangCore2\index.html
