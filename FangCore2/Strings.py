@@ -4,7 +4,7 @@ All String related FangCore2 tools
 from typing import *
 
 
-def extract_string_arguments(*args: Union[str, list]):
+def extract_string_arguments(*args: Union[str, list[Union[str, any]]]) -> list[str]:
     """
     When given strings, a list of strings, or a combination of both, will extract all of these strings into one list
     """
@@ -19,9 +19,9 @@ def extract_string_arguments(*args: Union[str, list]):
     return string_arguments
 
 
-def split(string, *args):
+def split(string: str, *args: Union[str, list[Union[str, any]]]) -> list[str]:
     """
-    Separate a string by many different of characters
+    Separate a string by specified strings are characters
     """
 
     string = str(string)

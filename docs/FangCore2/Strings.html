@@ -33,7 +33,7 @@ All String related FangCore2 tools
 from typing import *
 
 
-def extract_string_arguments(*args: Union[str, list]):
+def extract_string_arguments(*args: Union[str, list]) -&gt; list[str]:
     &#34;&#34;&#34;
     When given strings, a list of strings, or a combination of both, will extract all of these strings into one list
     &#34;&#34;&#34;
@@ -52,6 +52,8 @@ def split(string, *args):
     &#34;&#34;&#34;
     Separate a string by many different of characters
     &#34;&#34;&#34;
+
+    string = str(string)
     split_strings = extract_string_arguments(*args)</code></pre>
 </details>
 </section>
@@ -63,7 +65,7 @@ def split(string, *args):
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="FangCore2.Strings.extract_string_arguments"><code class="name flex">
-<span>def <span class="ident">extract_string_arguments</span></span>(<span>*args: Union[str, list])</span>
+<span>def <span class="ident">extract_string_arguments</span></span>(<span>*args: Union[str, list]) ‑> list</span>
 </code></dt>
 <dd>
 <div class="desc"><p>When given strings, a list of strings, or a combination of both, will extract all of these strings into one list</p></div>
@@ -71,7 +73,7 @@ def split(string, *args):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def extract_string_arguments(*args: Union[str, list]):
+<pre><code class="python">def extract_string_arguments(*args: Union[str, list]) -&gt; list[str]:
     &#34;&#34;&#34;
     When given strings, a list of strings, or a combination of both, will extract all of these strings into one list
     &#34;&#34;&#34;
@@ -99,6 +101,8 @@ def split(string, *args):
     &#34;&#34;&#34;
     Separate a string by many different of characters
     &#34;&#34;&#34;
+
+    string = str(string)
     split_strings = extract_string_arguments(*args)</code></pre>
 </details>
 </dd>
