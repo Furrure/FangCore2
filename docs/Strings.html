@@ -33,9 +33,10 @@ All String related FangCore2 tools
 from typing import *
 
 
-def extract_string_arguments(*args: Union[str, list[Union[str, any]]]) -&gt; list[str]:
+def extract_string_arguments(*args: Union[str, list[Union[str, any]]]) -&gt; tuple[str]:
     &#34;&#34;&#34;
-    When given strings, a list of strings, or a combination of both, will extract all of these strings into one list
+    When given strings, a list of strings, or a combination of both, will extract all of these strings into one list.
+    This function is used by most `FangCore2.Strings` functions and methods.
     &#34;&#34;&#34;
     string_arguments = []
     for arg in args:
@@ -45,16 +46,71 @@ def extract_string_arguments(*args: Union[str, list[Union[str, any]]]) -&gt; lis
         else:
             string_arguments.append(str(arg))
 
-    return string_arguments
+    return tuple(string_arguments)
 
 
-def split(string: str, *args: Union[str, list[Union[str, any]]]) -&gt; list[str]:
+def split(string: str, *args: Union[str, list[Union[str, any]]]) -&gt; tuple[str]:
     &#34;&#34;&#34;
-    Separate a string by specified strings are characters
+    Separate a string by specified strings or characters.
+
+    Order of arguments is the order of character detection and splitting.
+    ex: `split(&#34;Hello&#34;, &#34;ll&#34;, &#34;ell&#34;) =&gt; [&#34;He&#34;, &#34;o&#34;]`
     &#34;&#34;&#34;
 
-    string = str(string)
-    split_strings = extract_string_arguments(*args)</code></pre>
+    string = str(string)  # Input string
+
+    split_strings = extract_string_arguments(*args)  # Strings that the input string will be split by
+
+    output = []  # The result of the split operation
+
+    working_word = &#34;&#34;  # The next word that is being appended to until a split sequence is reached
+
+    char_index = 0  # The current character that is being read
+    while not char_index &gt;= len(string):
+        for splitter in split_strings:
+            if len(splitter) &gt; len(string[char_index:]):  # Check if the length even matches
+                continue
+            elif string[char_index:char_index+len(splitter)] == splitter:  # Check for a match in the string and break if so
+                if working_word.strip() != &#34;&#34;:
+                    output.append(working_word)
+                char_index = char_index+len(splitter)
+                working_word = &#34;&#34;
+                break
+        if not char_index &gt;= len(string):
+            working_word += string[char_index]
+        char_index += 1
+
+    if working_word.strip() != &#34;&#34;:
+        output.append(working_word)
+
+    return tuple(output)
+
+
+def index_all(string: str, *args: Union[str, list[Union[str, any]]]) -&gt; tuple[int]:
+    &#34;&#34;&#34;
+    Index all the occurrences of the given strings
+
+    If there are multiple matches at one index, the index is only included once.
+    &#34;&#34;&#34;
+
+    string = str(string)  # Input string
+
+    index_strings = extract_string_arguments(*args)  # Strings that the input string will be indexed
+
+    output = []  # The result of the index operation
+
+    char_index = 0  # The current character that is being read
+    while not char_index &gt;= len(string):
+        for indexer in index_strings:
+            if len(indexer) &gt; len(string[char_index:]):  # Check if the length even matches
+                continue
+            elif string[char_index:char_index + len(indexer)] == indexer:  # Check for a match in the string and break if so
+                if char_index not in output:
+                    output.append(char_index)
+                break
+        char_index += 1
+
+    return tuple(output)</code></pre>
 </details>
 </section>
 <section>
@@ -65,17 +121,19 @@ def split(string: str, *args: Union[str, list[Union[str, any]]]) -&gt; list[str]
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="FangCore2.Strings.extract_string_arguments"><code class="name flex">
-<span>def <span class="ident">extract_string_arguments</span></span>(<span>*args: Union[str, list[Union[str, <built-in function any>]]]) ‑> list</span>
+<span>def <span class="ident">extract_string_arguments</span></span>(<span>*args: Union[str, list[Union[str, <built-in function any>]]]) ‑> tuple</span>
 </code></dt>
 <dd>
-<div class="desc"><p>When given strings, a list of strings, or a combination of both, will extract all of these strings into one list</p></div>
+<div class="desc"><p>When given strings, a list of strings, or a combination of both, will extract all of these strings into one list.
+This function is used by most <code><a title="FangCore2.Strings" href="#FangCore2.Strings">FangCore2.Strings</a></code> functions and methods.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def extract_string_arguments(*args: Union[str, list[Union[str, any]]]) -&gt; list[str]:
+<pre><code class="python">def extract_string_arguments(*args: Union[str, list[Union[str, any]]]) -&gt; tuple[str]:
     &#34;&#34;&#34;
-    When given strings, a list of strings, or a combination of both, will extract all of these strings into one list
+    When given strings, a list of strings, or a combination of both, will extract all of these strings into one list.
+    This function is used by most `FangCore2.Strings` functions and methods.
     &#34;&#34;&#34;
     string_arguments = []
     for arg in args:
@@ -85,25 +143,92 @@ def split(string: str, *args: Union[str, list[Union[str, any]]]) -&gt; list[str]
         else:
             string_arguments.append(str(arg))
 
-    return string_arguments</code></pre>
+    return tuple(string_arguments)</code></pre>
 </details>
 </dd>
-<dt id="FangCore2.Strings.split"><code class="name flex">
-<span>def <span class="ident">split</span></span>(<span>string: str, *args: Union[str, list[Union[str, <built-in function any>]]]) ‑> list</span>
+<dt id="FangCore2.Strings.index_all"><code class="name flex">
+<span>def <span class="ident">index_all</span></span>(<span>string: str, *args: Union[str, list[Union[str, <built-in function any>]]]) ‑> tuple</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Separate a string by specified strings are characters</p></div>
+<div class="desc"><p>Index all the occurrences of the given strings</p>
+<p>If there are multiple matches at one index, the index is only included once.</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def split(string: str, *args: Union[str, list[Union[str, any]]]) -&gt; list[str]:
+<pre><code class="python">def index_all(string: str, *args: Union[str, list[Union[str, any]]]) -&gt; tuple[int]:
     &#34;&#34;&#34;
-    Separate a string by specified strings are characters
+    Index all the occurrences of the given strings
+
+    If there are multiple matches at one index, the index is only included once.
     &#34;&#34;&#34;
 
-    string = str(string)
-    split_strings = extract_string_arguments(*args)</code></pre>
+    string = str(string)  # Input string
+
+    index_strings = extract_string_arguments(*args)  # Strings that the input string will be indexed
+
+    output = []  # The result of the index operation
+
+    char_index = 0  # The current character that is being read
+    while not char_index &gt;= len(string):
+        for indexer in index_strings:
+            if len(indexer) &gt; len(string[char_index:]):  # Check if the length even matches
+                continue
+            elif string[char_index:char_index + len(indexer)] == indexer:  # Check for a match in the string and break if so
+                if char_index not in output:
+                    output.append(char_index)
+                break
+        char_index += 1
+
+    return tuple(output)</code></pre>
+</details>
+</dd>
+<dt id="FangCore2.Strings.split"><code class="name flex">
+<span>def <span class="ident">split</span></span>(<span>string: str, *args: Union[str, list[Union[str, <built-in function any>]]]) ‑> tuple</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Separate a string by specified strings or characters.</p>
+<p>Order of arguments is the order of character detection and splitting.
+ex: <code>split("Hello", "ll", "ell") =&gt; ["He", "o"]</code></p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def split(string: str, *args: Union[str, list[Union[str, any]]]) -&gt; tuple[str]:
+    &#34;&#34;&#34;
+    Separate a string by specified strings or characters.
+
+    Order of arguments is the order of character detection and splitting.
+    ex: `split(&#34;Hello&#34;, &#34;ll&#34;, &#34;ell&#34;) =&gt; [&#34;He&#34;, &#34;o&#34;]`
+    &#34;&#34;&#34;
+
+    string = str(string)  # Input string
+
+    split_strings = extract_string_arguments(*args)  # Strings that the input string will be split by
+
+    output = []  # The result of the split operation
+
+    working_word = &#34;&#34;  # The next word that is being appended to until a split sequence is reached
+
+    char_index = 0  # The current character that is being read
+    while not char_index &gt;= len(string):
+        for splitter in split_strings:
+            if len(splitter) &gt; len(string[char_index:]):  # Check if the length even matches
+                continue
+            elif string[char_index:char_index+len(splitter)] == splitter:  # Check for a match in the string and break if so
+                if working_word.strip() != &#34;&#34;:
+                    output.append(working_word)
+                char_index = char_index+len(splitter)
+                working_word = &#34;&#34;
+                break
+        if not char_index &gt;= len(string):
+            working_word += string[char_index]
+        char_index += 1
+
+    if working_word.strip() != &#34;&#34;:
+        output.append(working_word)
+
+    return tuple(output)</code></pre>
 </details>
 </dd>
 </dl>
@@ -125,6 +250,7 @@ def split(string: str, *args: Union[str, list[Union[str, any]]]) -&gt; list[str]
 <li><h3><a href="#header-functions">Functions</a></h3>
 <ul class="">
 <li><code><a title="FangCore2.Strings.extract_string_arguments" href="#FangCore2.Strings.extract_string_arguments">extract_string_arguments</a></code></li>
+<li><code><a title="FangCore2.Strings.index_all" href="#FangCore2.Strings.index_all">index_all</a></code></li>
 <li><code><a title="FangCore2.Strings.split" href="#FangCore2.Strings.split">split</a></code></li>
 </ul>
 </li>
