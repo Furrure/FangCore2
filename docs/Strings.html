@@ -33,7 +33,7 @@ All String related FangCore2 tools
 from typing import *
 
 
-def extract_string_arguments(*args: Union[str, list]) -&gt; list[str]:
+def extract_string_arguments(*args: Union[str, list[Union[str, any]]]) -&gt; list[str]:
     &#34;&#34;&#34;
     When given strings, a list of strings, or a combination of both, will extract all of these strings into one list
     &#34;&#34;&#34;
@@ -48,9 +48,9 @@ def extract_string_arguments(*args: Union[str, list]) -&gt; list[str]:
     return string_arguments
 
 
-def split(string, *args):
+def split(string: str, *args: Union[str, list[Union[str, any]]]) -&gt; list[str]:
     &#34;&#34;&#34;
-    Separate a string by many different of characters
+    Separate a string by specified strings are characters
     &#34;&#34;&#34;
 
     string = str(string)
@@ -65,7 +65,7 @@ def split(string, *args):
 <h2 class="section-title" id="header-functions">Functions</h2>
 <dl>
 <dt id="FangCore2.Strings.extract_string_arguments"><code class="name flex">
-<span>def <span class="ident">extract_string_arguments</span></span>(<span>*args: Union[str, list]) ‑> list</span>
+<span>def <span class="ident">extract_string_arguments</span></span>(<span>*args: Union[str, list[Union[str, <built-in function any>]]]) ‑> list</span>
 </code></dt>
 <dd>
 <div class="desc"><p>When given strings, a list of strings, or a combination of both, will extract all of these strings into one list</p></div>
@@ -73,7 +73,7 @@ def split(string, *args):
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def extract_string_arguments(*args: Union[str, list]) -&gt; list[str]:
+<pre><code class="python">def extract_string_arguments(*args: Union[str, list[Union[str, any]]]) -&gt; list[str]:
     &#34;&#34;&#34;
     When given strings, a list of strings, or a combination of both, will extract all of these strings into one list
     &#34;&#34;&#34;
@@ -89,17 +89,17 @@ def split(string, *args):
 </details>
 </dd>
 <dt id="FangCore2.Strings.split"><code class="name flex">
-<span>def <span class="ident">split</span></span>(<span>string, *args)</span>
+<span>def <span class="ident">split</span></span>(<span>string: str, *args: Union[str, list[Union[str, <built-in function any>]]]) ‑> list</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Separate a string by many different of characters</p></div>
+<div class="desc"><p>Separate a string by specified strings are characters</p></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def split(string, *args):
+<pre><code class="python">def split(string: str, *args: Union[str, list[Union[str, any]]]) -&gt; list[str]:
     &#34;&#34;&#34;
-    Separate a string by many different of characters
+    Separate a string by specified strings are characters
     &#34;&#34;&#34;
 
     string = str(string)
